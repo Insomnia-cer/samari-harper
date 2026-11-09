@@ -30,17 +30,53 @@ nav{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:30px}nav button{border:1px
 footer{display:flex;justify-content:space-between;gap:10px;margin-top:42px;padding-top:14px;border-top:1px solid #7776;color:#555;font-size:8px;letter-spacing:.17em;text-transform:uppercase}
 @media(max-width:720px){.shell{margin:10px auto;width:calc(100% - 18px);padding:18px 14px}.profile{grid-template-columns:1fr;gap:24px}.photo-frame img,.photo-missing{height:360px}.cards{grid-template-columns:1fr}.hero-glyph{font-size:66px}.glyphs{opacity:.12}}
 @media(max-width:430px){.top{font-size:7px}.hero{padding:40px 0 25px}.hero-glyph{font-size:50px}nav button{padding:10px 11px}.row{grid-template-columns:105px 1fr}.pass{flex-direction:column}.pass button{padding:13px}.secret{margin-left:0!important}footer{font-size:7px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important}}
+/* Compact dossier revision */
+.compact-title{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 18px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.compact-title .name{font:300 clamp(24px,4vw,38px) var(--jp);letter-spacing:.12em}
+.compact-title .latin{margin:5px 0 0;font-size:9px}
+.compact-title .index{color:#777;font-size:9px;letter-spacing:.18em}
+.profile{grid-template-columns:minmax(175px,230px) minmax(0,1fr);gap:22px;align-items:start}
+.photo-frame{padding:6px}
+.photo-frame img,.photo-missing{height:300px}
+.info-stage{position:relative;padding:0 36px}
+.info-glyph{position:absolute;top:8px;bottom:8px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font:300 clamp(24px,3vw,39px) var(--jp);letter-spacing:.3em;color:#aaa;opacity:.28;text-shadow:0 0 8px #fff3;transition:color .45s ease,text-shadow .45s ease,opacity .45s ease;cursor:default;user-select:none}
+.info-glyph.left{left:3px}.info-glyph.right{right:3px}
+.info-glyph:hover{color:#742b40;text-shadow:0 0 7px #742b4066,0 0 18px #742b4033;opacity:.8}
+.data{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 10px;border-top:1px solid var(--line)}
+.row{grid-template-columns:92px minmax(0,1fr);gap:7px;align-items:center;min-height:42px;padding:8px 7px}
+.key{font-size:8px;letter-spacing:.1em}.val{font-size:11px;line-height:1.45}
+.head{margin-bottom:12px}
+.note{margin-top:20px;padding:15px 18px;font-size:11px;line-height:1.7}
+.hero{display:none}
+@media(max-width:720px){
+ .profile{grid-template-columns:minmax(125px,180px) minmax(0,1fr);gap:14px}
+ .photo-frame img,.photo-missing{height:260px}
+ .info-stage{padding:0 25px}
+ .info-glyph{font-size:24px}
+ .data{grid-template-columns:1fr}
+ .row{min-height:36px;grid-template-columns:82px minmax(0,1fr);padding:6px}
+}
+@media(max-width:520px){
+ .profile{grid-template-columns:1fr;gap:18px}
+ .photo-frame{max-width:230px;margin:auto}
+ .photo-frame img,.photo-missing{height:270px}
+ .info-stage{padding:0 27px}
+ .data{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 7px}
+ .row{grid-template-columns:1fr;gap:3px;min-height:48px;padding:7px 5px}
+ .key{font-size:7px}.val{font-size:10px}
+ .compact-title{padding:17px 0 13px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style></head>
 <body><div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span></div><div class="content">
 <div class="top"><span>ARCHIVE / PERSONAL RECORD</span><span class="live">SIGNAL RECEIVED</span><span>2157 // SH-013</span></div>
-<header class="hero"><div><div class="kicker">A record that should not exist</div><h1>芋虫</h1><div class="latin">Samari Harper / Самари Харпер</div></div><div class="hero-glyph" aria-hidden="true">芋虫</div></header>
+<header class="compact-title"><div><div class="name">Самари Харпер</div><div class="latin">SAMARI HARPER</div></div><div class="index">PERSONAL RECORD / 2157</div></header>
 <div class="rule"></div>
 <nav role="tablist" aria-label="Разделы"><button role="tab" aria-selected="true" data-page="profile">01 / Досье</button><button role="tab" aria-selected="false" data-page="relations">02 / Связи</button><button class="secret" role="tab" aria-selected="false" data-page="secret">芋虫</button></nav>
 <main>
-<section class="page active" id="profile"><div class="profile"><div><div class="photo-frame"><img id="portrait" src="Images/samari-portrait.png" alt="Портрет Самари Харпер"></div><div class="caption"><span>Subject image</span><span>01 — 01</span></div></div><div><h2 class="head">Личное дело</h2><div class="data">
-<div class="row"><span class="key">Имя</span><span class="val">Самари Харпер</span></div><div class="row"><span class="key">Дата рождения</span><span class="val">13.05.2137</span></div><div class="row"><span class="key">Место рождения</span><span class="val">Ротфронт</span></div><div class="row"><span class="key">Возраст</span><span class="val">19 лет на момент преступления</span></div><div class="row"><span class="key">Рост</span><span class="val">171 см</span></div><div class="row"><span class="key">Оболочка</span><span class="val">Гештальт</span></div><div class="row"><span class="key">Фракция</span><span class="val">Штрафник</span></div><div class="row"><span class="key">Статья</span><span class="val">Убийство</span></div><div class="row"><span class="key">Приговор</span><span class="val">5 лет заключения</span></div><div class="row"><span class="key">Статус</span><span class="val alive">Жива</span></div>
-</div></div></div><div class="note"><h2 class="head">Примечание</h2>Тихая и застенчивая девушка. Предпочитает держаться в стороне, говорит негромко и не стремится привлекать к себе внимание. Внимательна к окружающим, хорошо запоминает детали и порой придаёт им значение, не вполне очевидное для других.<br><br><span style="color:#666">Основная биография будет добавлена позднее.</span></div></section>
+<section class="page active" id="profile"><div class="profile"><div><div class="photo-frame"><img id="portrait" src="Images/Samarie%20PR.png" alt="Портрет Самари Харпер"></div><div class="caption"><span>Subject image</span><span>01 — 01</span></div></div><div><h2 class="head">Личное дело</h2><div class="info-stage"><span class="info-glyph left" aria-hidden="true">芋虫</span><span class="info-glyph right" aria-hidden="true">蝶</span><div class="data">
+<div class="row"><span class="key">Имя</span><span class="val">Самари Харпер</span></div><div class="row"><span class="key">Дата рождения</span><span class="val">07.07.2138</span></div><div class="row"><span class="key">Место рождения</span><span class="val">Ротфронт</span></div><div class="row"><span class="key">Возраст</span><span class="val">19 лет на момент преступления</span></div><div class="row"><span class="key">Рост</span><span class="val">171 см</span></div><div class="row"><span class="key">Оболочка</span><span class="val">Гештальт</span></div><div class="row"><span class="key">Фракция</span><span class="val">Штрафник</span></div><div class="row"><span class="key">Статья</span><span class="val">Убийство</span></div><div class="row"><span class="key">Приговор</span><span class="val">5 лет заключения</span></div><div class="row"><span class="key">Статус</span><span class="val alive">Жива</span></div>
+</div></div></div></div><div class="note"><h2 class="head">Примечание</h2>Тихая и застенчивая девушка. Предпочитает держаться в стороне, говорит негромко и не стремится привлекать к себе внимание. Внимательна к окружающим, хорошо запоминает детали и порой придаёт им значение, не вполне очевидное для других.<br><br><span style="color:#666">Основная биография будет добавлена позднее.</span></div></section>
 <section class="page" id="relations"><h2 class="head">Записи о связях</h2><div class="cards"><article class="card"><small>RECORD / 001</small><h3>Имя персонажа</h3><p>Описание отношений будет добавлено позднее.</p></article><article class="card"><small>RECORD / 002</small><h3>Имя персонажа</h3><p>Описание отношений будет добавлено позднее.</p></article></div></section>
 <section class="page" id="secret"><div class="lock" id="lockPanel"><div class="lock-glyph">蝶</div><h2>閉ざされた記録</h2><p>КЛЮЧЕВОЕ СЛОВО / ENTER ACCESS KEY</p><form class="pass" id="passwordForm"><input id="passwordInput" type="password" placeholder="••••••" autocomplete="off" aria-label="Пароль"><button type="submit">Войти</button></form><div class="error" id="passwordError" aria-live="polite"></div></div><div class="secret-content" id="secretContent"><h2 class="secret-title">芋虫</h2><div class="secret-note">RECORD UNSEALED<br><br>Содержимое закрытого раздела будет добавлено позднее.</div></div></section>
 </main><footer><span>N.SRO // PRIVATE ARCHIVE</span><span>END OF RECORD</span><span>NO. 0137</span></footer>
