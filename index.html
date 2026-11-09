@@ -84,7 +84,7 @@ footer{display:flex;justify-content:space-between;gap:10px;margin-top:42px;paddi
 <script>
 const tabs=document.querySelectorAll("nav button"),pages=document.querySelectorAll(".page");
 tabs.forEach(tab=>tab.addEventListener("click",()=>{const target=tab.dataset.page;tabs.forEach(item=>item.setAttribute("aria-selected",String(item===tab)));pages.forEach(page=>page.classList.toggle("active",page.id===target));}));
-document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / samari-portrait.png";this.replaceWith(box);});
+document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / Samarie PR.png";this.replaceWith(box);});
 /* Декоративная блокировка: пароль виден в исходном JavaScript. */
 const SECRET_PASSWORD="蝶";
 document.getElementById("passwordForm").addEventListener("submit",event=>{event.preventDefault();const input=document.getElementById("passwordInput"),error=document.getElementById("passwordError");if(input.value.trim()===SECRET_PASSWORD){document.getElementById("lockPanel").style.display="none";document.getElementById("secretContent").classList.add("unlocked");error.textContent="";}else{error.textContent="ACCESS DENIED / Ключ не распознан.";input.value="";}});
