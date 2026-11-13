@@ -100,7 +100,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
   visibility:hidden;opacity:0;
   transition:opacity 2.8s ease,visibility 2.8s ease;
 }
-#samaraBackground img{
+#samaraBackground > img{
   position:absolute;
   right:calc(-2vw + 34px);
   bottom:0;
@@ -110,10 +110,21 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
   object-fit:contain;object-position:right bottom;
   transform:none;filter:brightness(1.14);user-select:none;-webkit-user-drag:none;
 }
+#samaraSideImages{
+  position:absolute;right:calc(48vw + 12px);bottom:5vh;
+  display:flex;flex-direction:column;align-items:center;gap:2vh;
+  width:15vw;max-width:210px;z-index:1;
+}
+#samaraSideImages img{
+  display:block;width:auto;height:20vh;max-height:190px;max-width:100%;
+  object-fit:contain;filter:brightness(1.08);user-select:none;-webkit-user-drag:none;
+}
 #samaraBackground.visible{visibility:visible;animation:wSamaraBreath 11s ease-in-out infinite}
 
 @media(max-width:720px){
-  #samaraBackground img{right:calc(-14vw + 37px);height:66vh;height:66dvh;max-width:70vw}
+  #samaraBackground > img{right:calc(-14vw + 37px);height:66vh;height:66dvh;max-width:70vw}
+  #samaraSideImages{right:calc(70vw - 8px);bottom:7vh;width:21vw;gap:1.5vh}
+  #samaraSideImages img{height:15vh;max-height:125px}
   .secret-layout{grid-template-columns:minmax(0,1fr);gap:14px}
   .secret-panels{width:min(100%,560px)}
   .secret-panel{min-height:145px}
@@ -126,7 +137,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 </style></head>
 <body>
 <!-- Фон — прямой потомок body, вне .shell -->
-<div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""></div>
+<div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""><div id="samaraSideImages"><img src="Images/CTP.png" alt=""><img src="Images/BFY.png" alt=""></div></div>
 <div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span class="secret-glyph">芋虫</span></div><div class="content">
 <header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
 <div class="rule"></div>
