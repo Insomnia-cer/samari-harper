@@ -32,12 +32,13 @@ nav{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:30px}nav button{border:1px
 .lock{max-width:520px;margin:55px auto;padding:32px 25px;border:1px solid #aaa9;outline:1px solid #fff2;outline-offset:6px;text-align:center;box-shadow:0 0 35px #fff08,inset 0 0 35px #fff04}.lock-glyph{display:inline-block;font:300 56px var(--jp);text-shadow:0 0 20px #fff8;animation:flicker 6s infinite;text-decoration:underline;text-decoration-color:#8b263e;text-decoration-thickness:1px;text-underline-offset:12px}.lock h2{font:300 21px var(--jp);letter-spacing:.2em}.lock p{color:#777;font-size:9px;letter-spacing:.16em}.pass{display:flex;justify-content:center;align-items:center;gap:8px;margin:22px auto 0}.pass input{flex:0 1 190px;width:190px;min-width:0;text-align:center;padding:13px;border:1px solid #7778;background:#020202;color:#fff;font:12px var(--mono);outline:none}.pass input:focus{border-color:#eee;box-shadow:0 0 12px #fff2}.pass button{padding:0 18px;border:1px solid #ddd;background:#eee;color:#050505;font:10px var(--mono);letter-spacing:.15em;text-transform:uppercase;cursor:pointer}.lock-phrase{max-width:390px;margin:24px auto 0;color:#aaa;font:300 14px/2 var(--jp);letter-spacing:.06em;text-align:center}.pass input::placeholder{color:#666;opacity:1}.error{min-height:18px;margin-top:12px;color:#aaa;font-size:10px}.external-description{margin-top:22px;padding:14px 8px 4px;border-top:1px solid #7775}.external-description .key{margin-bottom:9px}.external-description p{margin:0;color:#aaa;font:12px/1.85 var(--mono);letter-spacing:.025em}
 .secret-content{display:none}
 .secret-content.unlocked{display:block;position:relative;min-height:72vh;overflow:visible}
-.secret-title{position:relative;z-index:1}
-.secret-content .secret-title{text-align:center;font:300 clamp(54px,10vw,100px) var(--jp);letter-spacing:.25em;text-shadow:0 0 20px #fff7;animation:flicker 6s infinite}
+/* Большие иероглифы секретной вкладки — в фоновом слое, как остальные мигающие */
+.glyphs .secret-glyph{display:none;top:9%;left:50%;right:auto;transform:translateX(-50%);writing-mode:horizontal-tb;font:300 clamp(40px,7vw,72px) var(--jp);letter-spacing:.25em;white-space:nowrap;animation:flicker 6s infinite}
+body.secret-open .glyphs .secret-glyph{display:block}
 .secret-note{max-width:740px;margin:25px auto;padding:24px;border:1px solid #7777;color:#999;line-height:2}
 
 /* ===== Секретная страница: блоки слева, Самара справа на фоне ===== */
-.secret-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(280px,min(48%,650px)) 1fr;gap:28px;align-items:start;min-height:68vh;padding:12px 0 30px}
+.secret-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(280px,min(60%,820px)) 1fr;gap:28px;align-items:start;min-height:68vh;padding:12px 0 30px}
 .secret-panels{display:flex;flex-direction:column;gap:14px}
 .secret-panel{min-height:170px;padding:18px;border:1px solid #7779;background:#050505;color:#aaa;box-shadow:0 8px 28px #0009,inset 0 0 22px #ffffff08}
 .secret-panel:nth-child(2),.secret-panel:nth-child(3){min-height:135px}
@@ -102,7 +103,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 }
 #samaraBackground img{
   position:absolute;
-  right:-9vw;                        /* чуть правее, чем было (-2vw) */
+  right:calc(-9vw + 7px);            /* на 7px левее */
   bottom:0;
   display:block;width:auto;
   height:min(82vh,900px);height:min(82dvh,900px);
@@ -113,7 +114,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 #samaraBackground.visible{visibility:visible;animation:wSamaraBreath 11s ease-in-out infinite}
 
 @media(max-width:720px){
-  #samaraBackground img{right:-14vw;height:66vh;height:66dvh;max-width:70vw}
+  #samaraBackground img{right:calc(-14vw + 7px);height:66vh;height:66dvh;max-width:70vw}
   .secret-layout{grid-template-columns:minmax(0,1fr);gap:14px}
   .secret-panels{width:min(100%,560px)}
   .secret-panel{min-height:145px}
@@ -127,7 +128,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 <body>
 <!-- Фон — прямой потомок body, вне .shell -->
 <div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""></div>
-<div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span></div><div class="content">
+<div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span class="secret-glyph">芋虫</span></div><div class="content">
 <header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
 <div class="rule"></div>
 <nav role="tablist" aria-label="Разделы"><button role="tab" aria-selected="true" data-page="profile">01 / Досье</button><button role="tab" aria-selected="false" data-page="relations">02 / Отношения</button><button class="secret" role="tab" aria-selected="false" data-page="secret">芋虫</button></nav>
@@ -136,7 +137,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 <div class="row"><span class="key">Имя</span><span class="val">Самара Харпер</span></div><div class="row"><span class="key">Дата рождения</span><span class="val">07.07.2138</span></div><div class="row"><span class="key">Место рождения</span><span class="val">Ротфронт</span></div><div class="row"><span class="key">Рост</span><span class="val">171 см</span></div><div class="row"><span class="key">Оболочка</span><span class="val">Гештальт</span></div><div class="row"><span class="key">Фракция</span><span class="val">Штрафник</span></div><div class="row"><span class="key">Статус</span><span class="val alive">Жива</span></div>
 </div><div class="external-description"><div class="key">Внешнее описание</div><p>Бледная девушка с неброскими, не сразу запоминающимися чертами лица. Длинные прямые чёрные волосы обрамляют лицо; густая ровная чёлка полностью закрывает лоб.</p></div></div></div></section>
 <section class="page" id="relations" aria-label="Отношения"></section>
-<section class="page" id="secret"><div class="lock" id="lockPanel"><div class="lock-glyph">蝶</div><div class="lock-phrase">Я ничтожество.. Абсолютное ничто... Всего лишь одинокая гусеница, замершая в ожидании своего превращения...</div><form class="pass" id="passwordForm"><input id="passwordInput" type="password" placeholder="..Бабочка.." maxlength="1" autocomplete="off" aria-label="Пароль"><button type="submit">Войти</button></form><div class="error" id="passwordError" aria-live="polite"></div></div><div class="secret-content" id="secretContent"><h2 class="secret-title">芋虫</h2><div class="secret-layout"><div class="secret-panels"><section class="secret-panel" id="secretPanel1" aria-label="Блок 1"></section><section class="secret-panel" id="secretPanel2" aria-label="Блок 2"></section><section class="secret-panel" id="secretPanel3" aria-label="Блок 3"></section></div><div aria-hidden="true"></div></div></div></section>
+<section class="page" id="secret"><div class="lock" id="lockPanel"><div class="lock-glyph">蝶</div><div class="lock-phrase">Я ничтожество.. Абсолютное ничто... Всего лишь одинокая гусеница, замершая в ожидании своего превращения...</div><form class="pass" id="passwordForm"><input id="passwordInput" type="password" placeholder="..Бабочка.." maxlength="1" autocomplete="off" aria-label="Пароль"><button type="submit">Войти</button></form><div class="error" id="passwordError" aria-live="polite"></div></div><div class="secret-content" id="secretContent"><div class="secret-layout"><div class="secret-panels"><section class="secret-panel" id="secretPanel1" aria-label="Блок 1"></section><section class="secret-panel" id="secretPanel2" aria-label="Блок 2"></section><section class="secret-panel" id="secretPanel3" aria-label="Блок 3"></section></div><div aria-hidden="true"></div></div></div></section>
 </main>
 </div></div>
 
@@ -146,7 +147,7 @@ const bg=document.getElementById("samaraBackground");
 let unlocked=false,currentPage="profile";
 
 /* Фон виден только когда секрет разблокирован И открыта вкладка 芋虫 */
-function syncBackground(){bg.classList.toggle("visible",unlocked&&currentPage==="secret");}
+function syncBackground(){const on=unlocked&&currentPage==="secret";bg.classList.toggle("visible",on);document.body.classList.toggle("secret-open",on);}
 
 tabs.forEach(tab=>tab.addEventListener("click",()=>{
   const target=tab.dataset.page;currentPage=target;
