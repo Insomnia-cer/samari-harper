@@ -123,6 +123,31 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 #samaraSideImages .side-image:first-child img{transform:rotate(-5deg)}
 #samaraSideImages .side-image:last-child img{transform:rotate(5deg)}
 #samaraSideImages .side-label{color:#888;font:7px var(--mono);letter-spacing:.18em;text-transform:uppercase;opacity:.72}
+#samaraSideImages .side-image{position:relative}
+#samaraSideImages .side-image.is-dissolving img{
+  animation:sandImage .85s ease-out forwards;
+  -webkit-mask-image:radial-gradient(circle,transparent 1px,#000 1.7px);
+  mask-image:radial-gradient(circle,transparent 1px,#000 1.7px);
+  -webkit-mask-size:4px 4px;mask-size:4px 4px;
+}
+#samaraSideImages .side-image.is-dissolving .side-label{animation:labelFade .35s ease-out forwards}
+#samaraSideImages .side-image.is-dissolving:after{
+  content:"";position:absolute;inset:8% 12% 18%;pointer-events:none;
+  background-image:radial-gradient(circle,#ddd 1px,transparent 1.6px),radial-gradient(circle,#aaa 1px,transparent 1.6px);
+  background-size:13px 17px,19px 23px;background-position:0 0,6px 8px;
+  opacity:0;animation:sandScatter .85s ease-out forwards;
+}
+@keyframes sandImage{
+  0%{opacity:1;filter:brightness(1.08) blur(0);transform:translateY(0) scale(1);-webkit-mask-size:4px 4px;mask-size:4px 4px}
+  45%{opacity:.8;filter:brightness(1.25) blur(1px);-webkit-mask-size:9px 9px;mask-size:9px 9px}
+  100%{opacity:0;filter:brightness(1.5) blur(3px);transform:translate(7px,-10px) scale(1.04);-webkit-mask-size:17px 17px;mask-size:17px 17px}
+}
+@keyframes sandScatter{
+  0%{opacity:0;background-position:0 0,6px 8px;transform:translate(0,0) scale(.8)}
+  30%{opacity:.7}
+  100%{opacity:0;background-position:15px -24px,-12px -18px;transform:translate(12px,-18px) scale(1.15)}
+}
+@keyframes labelFade{to{opacity:0;filter:blur(2px)}}
 #samaraBackground.visible{visibility:visible;animation:wSamaraBreath 11s ease-in-out infinite}
 
 @media(max-width:720px){
@@ -176,6 +201,12 @@ tabs.forEach(tab=>tab.addEventListener("click",()=>{
 }));
 
 document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / Samarie PR.png";this.replaceWith(box);});
+
+const sideImages=document.querySelectorAll("#samaraSideImages .side-image");
+sideImages.forEach((item,index)=>{
+  item.addEventListener("mouseenter",()=>sideImages[1-index].classList.add("is-dissolving"));
+  item.addEventListener("mouseleave",()=>sideImages[1-index].classList.remove("is-dissolving"));
+});
 
 const PASSWORD_HASH="eec61b5bdbc9a5cdc9e6dca5f532327469d43b0b4ade2e79f89155d9574ab42e";
 const toHex=bytes=>Array.from(new Uint8Array(bytes),byte=>byte.toString(16).padStart(2,"0")).join("");
