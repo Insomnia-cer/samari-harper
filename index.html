@@ -97,6 +97,15 @@ nav button:nth-child(2){animation-delay:-2.4s}
 nav button:nth-child(3){animation-delay:-4.8s}
 nav button:hover,nav button[aria-selected=true]{border-radius:18px}
 nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinite}
+nav button[aria-selected=true]:nth-child(2){animation-delay:-2.4s}
+nav button[aria-selected=true]:nth-child(3){animation-delay:-4.8s}
+nav button:hover{
+  animation:none;
+  opacity:1;
+  color:#fff;
+  border-color:#eee;
+  box-shadow:inset 0 0 18px #fff1,0 0 12px #fff2;
+}
 @keyframes softLamp{0%,100%{opacity:.62;border-color:#7777;box-shadow:0 0 0 #fff0}48%{opacity:.88;border-color:#aaa9;box-shadow:0 0 9px #fff1}54%{opacity:.76;border-color:#9998;box-shadow:0 0 5px #fff1}}
 @keyframes softLampActive{0%,100%{opacity:.82;border-color:#aaa9;box-shadow:0 0 7px #fff1,inset 0 0 8px #fff05}48%{opacity:1;border-color:#eee;box-shadow:0 0 15px #fff3,inset 0 0 12px #fff1}54%{opacity:.9;border-color:#ccc;box-shadow:0 0 9px #fff2,inset 0 0 8px #fff08}}
 @media(max-width:720px){.shell{width:100%;margin:0;padding:22px 16px;min-height:100vh}}
@@ -123,8 +132,6 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
   display:flex;flex-direction:column;align-items:center;gap:8vh;
   width:15vw;max-width:210px;z-index:1;
 }
-#samaraSideImages,#samaraSideImages .side-image{pointer-events:auto}
-#samaraSideImages .side-image{cursor:pointer}
 #samaraSideImages .side-image{display:flex;flex-direction:column;align-items:center;gap:5px;position:relative}
 #samaraSideImages img{
   display:block;width:auto;height:20vh;max-height:190px;max-width:100%;
@@ -191,10 +198,40 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 <script>
 const tabs=document.querySelectorAll("nav button"),pages=document.querySelectorAll(".page");
 const bg=document.getElementById("samaraBackground");
-let unlocked=false,currentPage="profile";
+const sideImages=Array.from(document.querySelectorAll("#samaraSideImages .side-image"));
+let unlocked=false,currentPage="profile",hoveredSideIndex=-1,touchClearTimer=0;
+
+function clearSideHover(){
+  if(hoveredSideIndex!==-1&&sideImages[1-hoveredSideIndex]){
+    sideImages[1-hoveredSideIndex].classList.remove("is-dissolving");
+  }
+  hoveredSideIndex=-1;
+}
+
+function updateSideHover(x,y){
+  if(!bg.classList.contains("visible")){
+    clearSideHover();
+    return;
+  }
+  const nextIndex=sideImages.findIndex(item=>{
+    const rect=item.getBoundingClientRect();
+    return x>=rect.left&&x<=rect.right&&y>=rect.top&&y<=rect.bottom;
+  });
+  if(nextIndex===hoveredSideIndex)return;
+  clearSideHover();
+  if(nextIndex!==-1){
+    sideImages[1-nextIndex]?.classList.add("is-dissolving");
+    hoveredSideIndex=nextIndex;
+  }
+}
 
 /* Фон виден только когда секрет разблокирован И открыта вкладка 芋虫 */
-function syncBackground(){const on=unlocked&&currentPage==="secret";bg.classList.toggle("visible",on);document.body.classList.toggle("secret-open",on);}
+function syncBackground(){
+  const on=unlocked&&currentPage==="secret";
+  bg.classList.toggle("visible",on);
+  document.body.classList.toggle("secret-open",on);
+  if(!on)clearSideHover();
+}
 
 tabs.forEach(tab=>tab.addEventListener("click",()=>{
   const target=tab.dataset.page;currentPage=target;
@@ -205,12 +242,20 @@ tabs.forEach(tab=>tab.addEventListener("click",()=>{
 
 document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / Samarie PR.png";this.replaceWith(box);});
 
-const sideImages=document.querySelectorAll("#samaraSideImages .side-image");
-sideImages.forEach((item,index)=>{
-  const other=sideImages[1-index];
-  item.addEventListener("pointerenter",()=>other.classList.add("is-dissolving"));
-  item.addEventListener("pointerleave",()=>other.classList.remove("is-dissolving"));
-});
+document.addEventListener("pointermove",event=>{
+  updateSideHover(event.clientX,event.clientY);
+},{passive:true});
+
+document.addEventListener("pointerdown",event=>{
+  if(event.pointerType==="touch"){
+    updateSideHover(event.clientX,event.clientY);
+    window.clearTimeout(touchClearTimer);
+    touchClearTimer=window.setTimeout(clearSideHover,900);
+  }
+},{passive:true});
+
+window.addEventListener("blur",clearSideHover);
+document.addEventListener("pointerleave",clearSideHover);
 
 const PASSWORD_HASH="eec61b5bdbc9a5cdc9e6dca5f532327469d43b0b4ade2e79f89155d9574ab42e";
 const toHex=bytes=>Array.from(new Uint8Array(bytes),byte=>byte.toString(16).padStart(2,"0")).join("");
