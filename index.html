@@ -77,11 +77,95 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 @keyframes softLamp{0%,100%{opacity:.62;border-color:#7777;box-shadow:0 0 0 #fff0}48%{opacity:.88;border-color:#aaa9;box-shadow:0 0 9px #fff1}54%{opacity:.76;border-color:#9998;box-shadow:0 0 5px #fff1}}
 @keyframes softLampActive{0%,100%{opacity:.82;border-color:#aaa9;box-shadow:0 0 7px #fff1,inset 0 0 8px #fff05}48%{opacity:1;border-color:#eee;box-shadow:0 0 15px #fff3,inset 0 0 12px #fff1}54%{opacity:.9;border-color:#ccc;box-shadow:0 0 9px #fff2,inset 0 0 8px #fff08}}
 @media(max-width:720px){.shell{width:100%;margin:0;padding:22px 16px;min-height:100vh}}
-@media(prefers-reduced-motion:reduce){nav button,nav button[aria-selected=true],
-
-#samaraBackground{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;visibility:hidden;opacity:0;transition:opacity 2.8s ease,visibility 2.8s ease}#samaraBackground[hidden]{display:none!important}
-#samaraBackground img{position:absolute;right:-3.5vw;bottom:0;display:block;width:auto;height:min(82vh,900px);max-width:48vw;object-fit:contain;object-position:right bottom;transform:none!important;filter:none;user-select:none;-webkit-user-drag:none}
-#samaraBackground.visible{visibility:visible;animation:wSamaraBreath 11s ease-in-out infinite}
+/* Samara: viewport-anchored background layer.
+   Kept as a direct child of body; neither page content nor scroll position
+   participates in its positioning. */
+#samaraBackground{
+  position:fixed!important;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  visibility:hidden;
+  opacity:0;
+  transition:opacity 1.2s ease,visibility 1.2s ease;
+}
+#samaraBackground[hidden]{display:none!important}
+#samaraBackground img{
+  position:fixed!important;
+  right:-4.5vw;
+  bottom:0;
+  display:block;
+  width:auto;
+  height:min(88vh,960px);
+  max-width:54vw;
+  object-fit:contain;
+  object-position:right bottom;
+  margin:0;
+  padding:0;
+  border:0;
+  transform:none!important;
+  filter:none;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+#samaraBackground.visible{
+  visibility:visible;
+  opacity:1;
+}
+#samaraBackground.visible img{
+  animation:wSamaraBreath 11s ease-in-out infinite;
+}
+@keyframes wSamaraBreath{
+  0%,100%{opacity:.76}
+  50%{opacity:.94}
+}
+.secret-layout{
+  display:grid;
+  grid-template-columns:minmax(260px,min(43%,560px)) minmax(0,1fr);
+  gap:30px;
+  align-items:start;
+  min-height:68vh;
+  padding:12px 0 30px;
+  position:relative;
+  z-index:2;
+}
+.secret-panels{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  width:100%;
+}
+.secret-panel{
+  min-height:170px;
+  padding:18px;
+  border:1px solid #7779;
+  background:rgba(3,3,3,.97);
+  color:#aaa;
+  box-shadow:0 8px 28px #0009,inset 0 0 22px #ffffff08;
+  position:relative;
+  z-index:2;
+}
+.secret-panel:nth-child(2),.secret-panel:nth-child(3){min-height:135px}
+@media(max-width:720px){
+  #samaraBackground img{
+    right:-1vw;
+    height:66vh;
+    max-width:70vw;
+    opacity:.55;
+  }
+  .secret-layout{
+    grid-template-columns:minmax(0,1fr);
+    gap:14px;
+    min-height:0;
+  }
+  .secret-panels{width:min(100%,560px)}
+  .secret-panel{min-height:145px}
+  .secret-panel:nth-child(2),.secret-panel:nth-child(3){min-height:115px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
 </style></head>
 <body><div id="samaraBackground" aria-hidden="true" hidden><img src="Images/W_Samara.png" alt=""></div><div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span></div><div class="content">
 <header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
