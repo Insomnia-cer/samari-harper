@@ -115,12 +115,14 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
   display:flex;flex-direction:column;align-items:center;gap:8vh;
   width:15vw;max-width:210px;z-index:1;
 }
+#samaraSideImages .side-image{display:flex;flex-direction:column;align-items:center;gap:5px}
 #samaraSideImages img{
   display:block;width:auto;height:20vh;max-height:190px;max-width:100%;
   object-fit:contain;filter:brightness(1.08);user-select:none;-webkit-user-drag:none;
 }
-#samaraSideImages img:first-child{transform:rotate(-5deg)}
-#samaraSideImages img:last-child{transform:rotate(5deg)}
+#samaraSideImages .side-image:first-child img{transform:rotate(-5deg)}
+#samaraSideImages .side-image:last-child img{transform:rotate(5deg)}
+#samaraSideImages .side-label{color:#888;font:7px var(--mono);letter-spacing:.18em;text-transform:uppercase;opacity:.72}
 #samaraBackground.visible{visibility:visible;animation:wSamaraBreath 11s ease-in-out infinite}
 
 @media(max-width:720px){
@@ -139,7 +141,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 </style></head>
 <body>
 <!-- Фон — прямой потомок body, вне .shell -->
-<div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""><div id="samaraSideImages"><img src="Images/CTP.png" alt=""><img src="Images/BFY.png" alt=""></div></div>
+<div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""><div id="samaraSideImages"><div class="side-image"><img src="Images/CTP.png" alt=""><span class="side-label">CATERPILLAR</span></div><div class="side-image"><img src="Images/BFY.png" alt=""><span class="side-label">BUTTERFLY</span></div></div></div>
 <div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span class="secret-glyph">芋虫</span></div><div class="content">
 <header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
 <div class="rule"></div>
