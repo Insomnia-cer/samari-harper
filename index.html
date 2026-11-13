@@ -122,7 +122,6 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 }
 #samaraSideImages .side-image:first-child img{transform:rotate(-5deg)}
 #samaraSideImages .side-image:last-child img{transform:rotate(5deg)}
-#samaraSideImages .side-label{color:#888;font:7px var(--mono);letter-spacing:.18em;text-transform:uppercase;opacity:.72}
 #samaraSideImages .side-image{position:relative}
 #samaraSideImages .side-image.is-dissolving img{
   animation:sandImage .85s ease-out forwards;
@@ -130,7 +129,6 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
   mask-image:radial-gradient(circle,transparent 1px,#000 1.7px);
   -webkit-mask-size:4px 4px;mask-size:4px 4px;
 }
-#samaraSideImages .side-image.is-dissolving .side-label{animation:labelFade .35s ease-out forwards}
 #samaraSideImages .side-image.is-dissolving:after{
   content:"";position:absolute;inset:8% 12% 18%;pointer-events:none;
   background-image:radial-gradient(circle,#ddd 1px,transparent 1.6px),radial-gradient(circle,#aaa 1px,transparent 1.6px);
@@ -166,7 +164,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 </style></head>
 <body>
 <!-- Фон — прямой потомок body, вне .shell -->
-<div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""><div id="samaraSideImages"><div class="side-image"><img src="Images/CTP.png" alt=""><span class="side-label">CATERPILLAR</span></div><div class="side-image"><img src="Images/BFY.png" alt=""><span class="side-label">BUTTERFLY</span></div></div></div>
+<div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""><div id="samaraSideImages"><div class="side-image"><img src="Images/CTP.png" alt=""></div><div class="side-image"><img src="Images/BFY.png" alt=""></div></div></div>
 <div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span class="secret-glyph">芋虫</span></div><div class="content">
 <header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
 <div class="rule"></div>
