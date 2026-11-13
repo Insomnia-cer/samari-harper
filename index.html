@@ -79,11 +79,11 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 @media(max-width:720px){.shell{width:100%;margin:0;padding:22px 16px;min-height:100vh}}
 @media(prefers-reduced-motion:reduce){nav button,nav button[aria-selected=true],
 
-#samaraBackground{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;visibility:hidden;opacity:0;transition:opacity 2.8s ease,visibility 2.8s ease}
+#samaraBackground{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;visibility:hidden;opacity:0;transition:opacity 2.8s ease,visibility 2.8s ease}#samaraBackground[hidden]{display:none!important}
 #samaraBackground img{position:absolute;right:-3.5vw;bottom:0;display:block;width:auto;height:min(82vh,900px);max-width:48vw;object-fit:contain;object-position:right bottom;transform:none!important;filter:none;user-select:none;-webkit-user-drag:none}
 #samaraBackground.visible{visibility:visible;animation:wSamaraBreath 11s ease-in-out infinite}
 </style></head>
-<body><div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""></div><div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span></div><div class="content">
+<body><div id="samaraBackground" aria-hidden="true" hidden><img src="Images/W_Samara.png" alt=""></div><div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span></div><div class="content">
 <header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
 <div class="rule"></div>
 <nav role="tablist" aria-label="Разделы"><button role="tab" aria-selected="true" data-page="profile">01 / Досье</button><button role="tab" aria-selected="false" data-page="relations">02 / Отношения</button><button class="secret" role="tab" aria-selected="false" data-page="secret">芋虫</button></nav>
@@ -99,7 +99,7 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 <script>
 const tabs=document.querySelectorAll("nav button"),pages=document.querySelectorAll(".page");
 const samaraBackground=document.getElementById("samaraBackground"),secretContent=document.getElementById("secretContent");
-const syncSamaraBackground=()=>samaraBackground.classList.toggle("visible",document.querySelector(".page.active")?.id==="secret"&&secretContent.classList.contains("unlocked"));
+const syncSamaraBackground=()=>{const show=document.querySelector(".page.active")?.id==="secret"&&secretContent.classList.contains("unlocked");samaraBackground.hidden=!show;samaraBackground.classList.toggle("visible",show);};
 tabs.forEach(tab=>tab.addEventListener("click",()=>{const target=tab.dataset.page;tabs.forEach(item=>item.setAttribute("aria-selected",String(item===tab)));pages.forEach(page=>page.classList.toggle("active",page.id===target));syncSamaraBackground();}));
 document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / Samarie PR.png";this.replaceWith(box);});
 
