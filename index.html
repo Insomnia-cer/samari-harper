@@ -93,17 +93,16 @@ nav button[aria-selected=true]{animation:softLampActive 7.2s ease-in-out infinit
 @keyframes softLampActive{0%,100%{opacity:.82;border-color:#aaa9;box-shadow:0 0 7px #fff1,inset 0 0 8px #fff05}48%{opacity:1;border-color:#eee;box-shadow:0 0 15px #fff3,inset 0 0 12px #fff1}54%{opacity:.9;border-color:#ccc;box-shadow:0 0 9px #fff2,inset 0 0 8px #fff08}}
 @media(max-width:720px){.shell{width:100%;margin:0;padding:22px 16px;min-height:100vh}}
 
-/* ===== Фон с Самарой: фиксирован к окну, не зависит от прокрутки ===== */
 #samaraBackground{
   position:fixed;top:0;left:0;width:100%;
-  height:100vh;height:100dvh;        /* dvh — чтобы адресная строка на телефоне не «двигала» картинку */
+  height:100vh;height:100dvh;
   z-index:0;overflow:hidden;pointer-events:none;
   visibility:hidden;opacity:0;
   transition:opacity 2.8s ease,visibility 2.8s ease;
 }
 #samaraBackground img{
   position:absolute;
-  right:calc(-9vw + 7px);            /* на 7px левее */
+  right:calc(-7vw + 12px);
   bottom:0;
   display:block;width:auto;
   height:min(82vh,900px);height:min(82dvh,900px);
