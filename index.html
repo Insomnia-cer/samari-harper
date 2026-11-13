@@ -73,13 +73,6 @@ footer{display:flex;justify-content:space-between;gap:10px;margin-top:42px;paddi
 }
 .player-button:hover:not(:disabled){color:#fff;border-color:#ddd;box-shadow:0 0 10px #fff2}
 .player-button:disabled{opacity:.3;cursor:not-allowed}
-.player-pick{
-  display:inline-flex;align-items:center;justify-content:center;min-height:27px;
-  margin-left:3px;padding:0 8px;border:1px solid #7777;color:#888;
-  font:8px var(--mono);letter-spacing:.12em;white-space:nowrap;cursor:pointer;transition:.2s;
-}
-.player-pick:hover{color:#eee;border-color:#bbb;box-shadow:0 0 9px #fff1}
-#playerFile{display:none}
 .player-meta{min-width:0}
 .now-playing{
   overflow:hidden;color:#bbb;font:italic 10px/1.45 var(--mono);
@@ -95,7 +88,7 @@ footer{display:flex;justify-content:space-between;gap:10px;margin-top:42px;paddi
   .player-volume{grid-column:1/-1;max-width:190px;margin-left:auto}
 }
 @media(prefers-reduced-motion:reduce){
-  .player-button,.player-pick{transition:none}
+  .player-button{transition:none}
 }
 .profile{grid-template-columns:minmax(175px,230px) minmax(0,1fr);gap:22px;align-items:start}
 .photo-frame{padding:6px}
@@ -224,8 +217,6 @@ nav button:hover{
   <div class="player-controls">
     <button class="player-button" id="playerPlay" type="button" aria-label="Воспроизвести" title="Воспроизвести">▶</button>
     <button class="player-button" id="playerPause" type="button" aria-label="Пауза" title="Пауза" disabled>Ⅱ</button>
-    <label class="player-pick" for="playerFile">＋ ТРЕК</label>
-    <input id="playerFile" type="file" accept="audio/*">
   </div>
   <div class="player-meta">
     <div class="now-playing"><i>Сейчас играет: <span id="playerTrackName">ничего</span></i></div>
@@ -297,20 +288,31 @@ tabs.forEach(tab=>tab.addEventListener("click",()=>{
   const target=tab.dataset.page;currentPage=target;
   tabs.forEach(item=>item.setAttribute("aria-selected",String(item===tab)));
   pages.forEach(page=>page.classList.toggle("active",page.id===target));
+  setPlayerTrack(target);
   syncBackground();
 }));
 
 document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / Samarie PR.png";this.replaceWith(box);});
 
 const siteAudio=document.getElementById("siteAudio");
-const playerFile=document.getElementById("playerFile");
 const playerPlay=document.getElementById("playerPlay");
 const playerPause=document.getElementById("playerPause");
 const playerTrackName=document.getElementById("playerTrackName");
 const playerState=document.getElementById("playerState");
 const playerVolume=document.getElementById("playerVolume");
 const playerVolumeValue=document.getElementById("playerVolumeValue");
-let currentAudioUrl=null;
+
+const playerTracks={
+  profile:{
+    name:"2. 15-22.ogg",
+    src:new URL("music/2. 15-22.ogg",document.baseURI).href
+  },
+  secret:{
+    name:"H) カイコ.ogg",
+    src:new URL("music/H) カイコ.ogg",document.baseURI).href
+  }
+};
+let activePlayerTrack=null;
 
 siteAudio.volume=Number(playerVolume.value);
 playerVolume.addEventListener("input",()=>{
@@ -318,29 +320,32 @@ playerVolume.addEventListener("input",()=>{
   playerVolumeValue.textContent=String(Math.round(siteAudio.volume*100));
 });
 
-playerFile.addEventListener("change",()=>{
-  const file=playerFile.files&&playerFile.files[0];
-  if(!file)return;
-  if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);
+function setPlayerTrack(page){
+  const track=playerTracks[page]||null;
+  if(activePlayerTrack?.src===track?.src)return;
+
   siteAudio.pause();
-  currentAudioUrl=URL.createObjectURL(file);
-  siteAudio.src=currentAudioUrl;
+  siteAudio.removeAttribute("src");
   siteAudio.load();
-  playerTrackName.textContent=file.name;
-  playerState.textContent="ГОТОВО К ВОСПРОИЗВЕДЕНИЮ";
+  activePlayerTrack=track;
+
+  playerPlay.disabled=!track;
   playerPause.disabled=true;
-});
+  playerTrackName.textContent=track?track.name:"не назначен";
+  playerState.textContent=track
+    ?"ОЖИДАНИЕ ФАЙЛА В РЕПОЗИТОРИИ"
+    :"ДЛЯ ЭТОГО РАЗДЕЛА ТРЕК НЕ НАЗНАЧЕН";
+
+  if(track)siteAudio.src=track.src;
+}
 
 playerPlay.addEventListener("click",async()=>{
-  if(!siteAudio.src){
-    playerState.textContent="ВЫБЕРИТЕ АУДИОФАЙЛ";
-    playerFile.click();
-    return;
-  }
+  if(!activePlayerTrack)return;
   try{
     await siteAudio.play();
   }catch{
-    playerState.textContent="НЕ УДАЛОСЬ ЗАПУСТИТЬ ТРЕК";
+    playerState.textContent="ТРЕК НЕ НАЙДЕН / ПРОВЕРЬТЕ ПАПКУ MUSIC";
+    playerPlay.disabled=false;
     playerPause.disabled=true;
   }
 });
@@ -356,23 +361,23 @@ siteAudio.addEventListener("play",()=>{
   playerPause.disabled=false;
 });
 siteAudio.addEventListener("pause",()=>{
-  playerPlay.disabled=false;
+  playerPlay.disabled=!activePlayerTrack;
   playerPause.disabled=true;
   if(siteAudio.currentTime>0&&!siteAudio.ended)playerState.textContent="ПАУЗА";
 });
 siteAudio.addEventListener("ended",()=>{
   playerState.textContent="ТРЕК ЗАВЕРШЁН";
-  playerPlay.disabled=false;
+  playerPlay.disabled=!activePlayerTrack;
   playerPause.disabled=true;
 });
 siteAudio.addEventListener("error",()=>{
-  playerState.textContent="ОШИБКА ЧТЕНИЯ АУДИОФАЙЛА";
+  if(!activePlayerTrack)return;
+  playerState.textContent="ТРЕК НЕ НАЙДЕН / ПРОВЕРЬТЕ ПАПКУ MUSIC";
   playerPlay.disabled=false;
   playerPause.disabled=true;
 });
-window.addEventListener("pagehide",()=>{
-  if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);
-},{once:true});
+
+setPlayerTrack(currentPage);
 
 document.addEventListener("pointermove",event=>{
   updateSideHover(event.clientX,event.clientY);
