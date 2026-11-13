@@ -57,6 +57,46 @@ footer{display:flex;justify-content:space-between;gap:10px;margin-top:42px;paddi
 .compact-title .name{font:300 clamp(24px,4vw,38px) var(--jp);letter-spacing:.12em}
 .compact-title .latin{margin:5px 0 0;font-size:9px}
 .compact-title .index{color:#777;font-size:9px;letter-spacing:.18em}
+
+.site-player{
+  display:grid;grid-template-columns:auto minmax(110px,1fr) minmax(100px,125px);
+  align-items:center;gap:12px;width:min(100%,470px);margin-top:13px;
+  padding:9px 11px;border:1px solid #7777;
+  background:linear-gradient(110deg,#ffffff0a,#050505 76%);
+  box-shadow:inset 0 0 18px #ffffff07;
+}
+.player-controls{display:flex;align-items:center;gap:5px}
+.player-button{
+  display:grid;place-items:center;width:29px;height:29px;padding:0;
+  border:1px solid #7779;border-radius:50%;background:#070707;color:#bbb;
+  font:12px var(--mono);cursor:pointer;transition:color .2s,border-color .2s,box-shadow .2s,opacity .2s;
+}
+.player-button:hover:not(:disabled){color:#fff;border-color:#ddd;box-shadow:0 0 10px #fff2}
+.player-button:disabled{opacity:.3;cursor:not-allowed}
+.player-pick{
+  display:inline-flex;align-items:center;justify-content:center;min-height:27px;
+  margin-left:3px;padding:0 8px;border:1px solid #7777;color:#888;
+  font:8px var(--mono);letter-spacing:.12em;white-space:nowrap;cursor:pointer;transition:.2s;
+}
+.player-pick:hover{color:#eee;border-color:#bbb;box-shadow:0 0 9px #fff1}
+#playerFile{display:none}
+.player-meta{min-width:0}
+.now-playing{
+  overflow:hidden;color:#bbb;font:italic 10px/1.45 var(--mono);
+  letter-spacing:.015em;text-overflow:ellipsis;white-space:nowrap;
+}
+#playerTrackName{color:#eee}
+.player-state{margin-top:4px;color:#666;font:7px/1.3 var(--mono);letter-spacing:.13em}
+.player-volume{display:flex;align-items:center;gap:6px;color:#777;font:8px var(--mono);letter-spacing:.08em}
+.player-volume input{width:100%;min-width:35px;height:2px;margin:0;accent-color:#b8b8b8;cursor:pointer}
+#playerVolumeValue{width:20px;color:#999;text-align:right;font-variant-numeric:tabular-nums}
+@media(max-width:520px){
+  .site-player{grid-template-columns:auto minmax(0,1fr);gap:8px 10px;width:100%}
+  .player-volume{grid-column:1/-1;max-width:190px;margin-left:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .player-button,.player-pick{transition:none}
+}
 .profile{grid-template-columns:minmax(175px,230px) minmax(0,1fr);gap:22px;align-items:start}
 .photo-frame{padding:6px}
 .photo-frame img,.photo-missing{height:300px}
@@ -177,7 +217,28 @@ nav button:hover{
 <!-- Фон — прямой потомок body, вне .shell -->
 <div id="samaraBackground" aria-hidden="true"><img src="Images/W_Samara.png" alt=""><div id="samaraSideImages"><div class="side-image"><img src="Images/CTP.png" alt=""></div><div class="side-image"><img src="Images/BFY.png" alt=""></div></div></div>
 <div class="shell"><div class="glyphs" aria-hidden="true"><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span>芋虫</span><span class="secret-glyph">芋虫</span></div><div class="content">
-<header class="compact-title"><div><div class="name">Самара Харпер</div><div class="latin">SAMARA HARPER</div></div></header>
+<header class="compact-title"><div>
+<div class="name">Самара Харпер</div>
+<div class="latin">SAMARA HARPER</div>
+<div class="site-player" id="sitePlayer">
+  <div class="player-controls">
+    <button class="player-button" id="playerPlay" type="button" aria-label="Воспроизвести" title="Воспроизвести">▶</button>
+    <button class="player-button" id="playerPause" type="button" aria-label="Пауза" title="Пауза" disabled>Ⅱ</button>
+    <label class="player-pick" for="playerFile">＋ ТРЕК</label>
+    <input id="playerFile" type="file" accept="audio/*">
+  </div>
+  <div class="player-meta">
+    <div class="now-playing"><i>Сейчас играет: <span id="playerTrackName">ничего</span></i></div>
+    <div class="player-state" id="playerState" aria-live="polite">ОЖИДАНИЕ АУДИОФАЙЛА</div>
+  </div>
+  <label class="player-volume" for="playerVolume">
+    <span>VOL</span>
+    <input id="playerVolume" type="range" min="0" max="1" step="0.01" value="0.65" aria-label="Громкость">
+    <span id="playerVolumeValue">65</span>
+  </label>
+  <audio id="siteAudio" preload="none"></audio>
+</div>
+</div></header>
 <div class="rule"></div>
 <nav role="tablist" aria-label="Разделы"><button role="tab" aria-selected="true" data-page="profile">01 / Досье</button><button role="tab" aria-selected="false" data-page="relations">02 / Отношения</button><button class="secret" role="tab" aria-selected="false" data-page="secret">芋虫</button></nav>
 <main>
@@ -240,6 +301,78 @@ tabs.forEach(tab=>tab.addEventListener("click",()=>{
 }));
 
 document.getElementById("portrait").addEventListener("error",function(){const box=document.createElement("div");box.className="photo-missing";box.textContent="IMAGE NOT FOUND / Images / Samarie PR.png";this.replaceWith(box);});
+
+const siteAudio=document.getElementById("siteAudio");
+const playerFile=document.getElementById("playerFile");
+const playerPlay=document.getElementById("playerPlay");
+const playerPause=document.getElementById("playerPause");
+const playerTrackName=document.getElementById("playerTrackName");
+const playerState=document.getElementById("playerState");
+const playerVolume=document.getElementById("playerVolume");
+const playerVolumeValue=document.getElementById("playerVolumeValue");
+let currentAudioUrl=null;
+
+siteAudio.volume=Number(playerVolume.value);
+playerVolume.addEventListener("input",()=>{
+  siteAudio.volume=Number(playerVolume.value);
+  playerVolumeValue.textContent=String(Math.round(siteAudio.volume*100));
+});
+
+playerFile.addEventListener("change",()=>{
+  const file=playerFile.files&&playerFile.files[0];
+  if(!file)return;
+  if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);
+  siteAudio.pause();
+  currentAudioUrl=URL.createObjectURL(file);
+  siteAudio.src=currentAudioUrl;
+  siteAudio.load();
+  playerTrackName.textContent=file.name;
+  playerState.textContent="ГОТОВО К ВОСПРОИЗВЕДЕНИЮ";
+  playerPause.disabled=true;
+});
+
+playerPlay.addEventListener("click",async()=>{
+  if(!siteAudio.src){
+    playerState.textContent="ВЫБЕРИТЕ АУДИОФАЙЛ";
+    playerFile.click();
+    return;
+  }
+  try{
+    await siteAudio.play();
+  }catch{
+    playerState.textContent="НЕ УДАЛОСЬ ЗАПУСТИТЬ ТРЕК";
+    playerPause.disabled=true;
+  }
+});
+
+playerPause.addEventListener("click",()=>{
+  siteAudio.pause();
+  playerState.textContent="ПАУЗА";
+});
+
+siteAudio.addEventListener("play",()=>{
+  playerState.textContent="ВОСПРОИЗВЕДЕНИЕ";
+  playerPlay.disabled=true;
+  playerPause.disabled=false;
+});
+siteAudio.addEventListener("pause",()=>{
+  playerPlay.disabled=false;
+  playerPause.disabled=true;
+  if(siteAudio.currentTime>0&&!siteAudio.ended)playerState.textContent="ПАУЗА";
+});
+siteAudio.addEventListener("ended",()=>{
+  playerState.textContent="ТРЕК ЗАВЕРШЁН";
+  playerPlay.disabled=false;
+  playerPause.disabled=true;
+});
+siteAudio.addEventListener("error",()=>{
+  playerState.textContent="ОШИБКА ЧТЕНИЯ АУДИОФАЙЛА";
+  playerPlay.disabled=false;
+  playerPause.disabled=true;
+});
+window.addEventListener("pagehide",()=>{
+  if(currentAudioUrl)URL.revokeObjectURL(currentAudioUrl);
+},{once:true});
 
 document.addEventListener("pointermove",event=>{
   updateSideHover(event.clientX,event.clientY);
