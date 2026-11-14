@@ -48,8 +48,13 @@ body.secret-open .glyphs .secret-glyph{display:block}
 /* ===== Секретная страница: блоки слева, Самара справа на фоне ===== */
 .secret-layout{position:relative;z-index:2;display:grid;grid-template-columns:minmax(280px,min(60%,820px)) 1fr;gap:28px;align-items:start;min-height:68vh;padding:12px 0 30px}
 .secret-panels{display:flex;flex-direction:column;gap:14px}
-.secret-panel{min-height:170px;padding:18px;border:1px solid #7779;background:#050505;color:#aaa;box-shadow:0 8px 28px #0009,inset 0 0 22px #ffffff08}
-.secret-panel:nth-child(2),.secret-panel:nth-child(3){min-height:135px}
+.secret-panel{
+  min-height:0;padding:10px 14px;
+  border:1px solid #7779;background:#050505;color:#aaa;
+  font-size:11px;line-height:1.65;
+  box-shadow:0 8px 28px #0009,inset 0 0 22px #ffffff08;
+}
+.secret-panel p{margin:0}
 .secret-panel img{display:block;max-width:100%;height:auto}
 
 footer{display:flex;justify-content:space-between;gap:10px;margin-top:42px;padding-top:14px;border-top:1px solid #7776;color:#555;font-size:8px;letter-spacing:.17em;text-transform:uppercase}
@@ -199,8 +204,8 @@ nav button:hover{
   #samaraSideImages img{height:15vh;max-height:125px}
   .secret-layout{grid-template-columns:minmax(0,1fr);gap:14px}
   .secret-panels{width:min(100%,560px)}
-  .secret-panel{min-height:145px}
-  .secret-panel:nth-child(2),.secret-panel:nth-child(3){min-height:115px}
+  .secret-panel{min-height:0;padding:9px 12px}
+  .secret-panel:nth-child(2),.secret-panel:nth-child(3){min-height:0}
 }
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{animation:none!important;transition:none!important}
