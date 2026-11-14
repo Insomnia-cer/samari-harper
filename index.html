@@ -3,6 +3,13 @@
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#030303"><title>芋虫 // SAMARA HARPER</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400&family=Noto+Serif+JP:wght@300;400&display=swap');
+@font-face{
+  font-family:MoritatFix;
+  src:url("font/MORITAT%20(Fix).ttf") format("truetype");
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
 :root{--bg:#030303;--fg:#e8e8e8;--dim:#777;--line:#7777;--mono:"IBM Plex Mono",monospace;--jp:"Noto Serif JP",serif}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%;background:var(--bg);color:var(--fg)}
@@ -54,7 +61,7 @@ body.secret-open .glyphs .secret-glyph{display:block}
   font-size:11px;line-height:1.65;
   box-shadow:0 8px 28px #0009,inset 0 0 22px #ffffff08;
 }
-.secret-panel p{margin:0}
+.secret-panel p{margin:0;font-family:MoritatFix,var(--mono)}
 .secret-panel:empty{display:none}
 .secret-panel img{display:block;max-width:100%;height:auto}
 
